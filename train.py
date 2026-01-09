@@ -2,8 +2,7 @@ import pandas as pd
 import json
 import joblib
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 
 # Load dataset
@@ -12,17 +11,16 @@ data = pd.read_csv("dataset/winequality-red.csv", sep=";")
 X = data.drop("quality", axis=1)
 y = data["quality"]
 
-# 🔁 CHANGED PREPROCESSING: MinMaxScaler
-scaler = MinMaxScaler()
-X_scaled = scaler.fit_transform(X)
-
-# Train-test split
+# Train-test split (no scaling for Random Forest)
 X_train, X_test, y_train, y_test = train_test_split(
-    X_scaled, y, test_size=0.2, random_state=42
+    X, y, test_size=0.2, random_state=42
 )
 
-# Model: Linear Regression
-model = LinearRegression()
+# 🔁 CHANGED MODEL: Random Forest Regression
+model = RandomForestRegressor(
+    n_estimators=100,
+    random_state=42
+)
 model.fit(X_train, y_train)
 
 # Prediction
