@@ -20,9 +20,12 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
+    - name: Create output directory
+      run: mkdir -p output
+
     - name: Run training
       run: python train.py
-
+    
     - name: Job Summary
       run: |
         echo "## Lab 2 Results" >> $GITHUB_STEP_SUMMARY
